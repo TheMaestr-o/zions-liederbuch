@@ -63,21 +63,13 @@
 
 <br><br>
 
-<img src="screenshots/fullscreen-standard-verse.png" width="620" alt="Verse on a standard display">
-<br><sub>Standard display — verse</sub>
+<img src="screenshots/before-example.png" width="620" alt="Before: plain PowerPoint slide">
+<br><sub>Before · PowerPoint, decades of inconsistent formatting</sub>
 
 <br><br>
 
-<table>
-<tr>
-<td align="center"><img src="screenshots/before-example.png" width="330" alt="Before: plain PowerPoint slide"></td>
-<td align="center"><img src="screenshots/after-verse-3d.png" width="370" alt="After: designed Keynote slide"></td>
-</tr>
-<tr>
-<td align="center"><sub>Before · PowerPoint, decades of inconsistent formatting</sub></td>
-<td align="center"><sub>After · one Keynote template, applied automatically</sub></td>
-</tr>
-</table>
+<img src="screenshots/fullscreen-standard-verse.png" width="620" alt="After: designed Keynote slide">
+<br><sub>After · one Keynote template, applied automatically</sub>
 
 </div>
 
