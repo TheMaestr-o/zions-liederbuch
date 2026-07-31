@@ -20,6 +20,11 @@
 
 <br><br>
 
+<img src="screenshots/presentation-demo.gif" width="700" alt="Presentation running: cover, verse, refrain, verse">
+<br><sub>A hymn playing through — cover, verse, refrain, verse</sub>
+
+<br><br>
+
 <img src="screenshots/keynote-real-4.png" width="700" alt="Cover slide: hymn number and title">
 <br><sub>Cover — the number set large, the title across it</sub>
 
@@ -37,6 +42,11 @@
 
 <img src="screenshots/keynote-real-1.png" width="700" alt="Second verse slide">
 <br><sub>Verse 2 — same layout, so the whole book reads identically</sub>
+
+<br><br>
+
+<img src="screenshots/keynote-start.png" width="700" alt="Keynote presenter view">
+<br><sub>Presenter view — current slide, what is coming next, and the clock</sub>
 
 <br><br>
 
