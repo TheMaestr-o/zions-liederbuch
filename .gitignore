@@ -1,4 +1,6 @@
 __pycache__/
 *.pyc
-songs/*.zip
 scripts/900 - Muster.key
+manual-texts/
+dist/
+songs/

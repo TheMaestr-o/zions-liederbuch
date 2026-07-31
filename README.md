@@ -4,6 +4,8 @@
 
 **705 hymns, one consistent Keynote design — automated pptx → Keynote conversion**
 
+<sub>German hymnal · Keynote presentations · one slide per verse</sub>
+
 <sub>D e s i g n e d&nbsp;&nbsp;b y&nbsp;&nbsp;S e r g i o</sub>
 
 <br>
@@ -18,22 +20,26 @@
 
 <br><br>
 
+<img src="screenshots/keynote-real-1.png" width="700" alt="Cover slide: hymn number and title">
+<br><sub>Cover slide — number and title</sub>
+
+<br><br>
+
+<img src="screenshots/keynote-real-2.png" width="700" alt="Refrain slide">
+<br><sub>Refrain slide — the oversized <i>Ref:</i> mark sets it apart from a verse at a glance</sub>
+
+<br><br>
+
 <table>
 <tr>
-<td align="center"><img src="screenshots/before-example.png" width="340" alt="Before: plain PowerPoint slide"></td>
-<td align="center"><img src="screenshots/after-verse-3d.png" width="380" alt="After: designed Keynote slide"></td>
+<td align="center"><img src="screenshots/before-example.png" width="330" alt="Before: plain PowerPoint slide"></td>
+<td align="center"><img src="screenshots/after-verse-3d.png" width="370" alt="After: designed Keynote slide"></td>
 </tr>
 <tr>
 <td align="center"><sub>Before · PowerPoint, decades of inconsistent formatting</sub></td>
 <td align="center"><sub>After · one Keynote template, applied automatically</sub></td>
 </tr>
 </table>
-
-<br>
-
-<img src="screenshots/after-refrain.png" width="600" alt="Refrain slide example">
-<br>
-<sub>Verse and refrain slides, sample layout — placeholder text, not an actual hymn</sub>
 
 </div>
 
@@ -43,7 +49,10 @@
 
 A German hymnal (*Zions Liederbuch*, 705 songs) that existed as decades of hand-built `.pptx` files — inconsistent fonts, layouts, and slide structure depending on who built which song and when. This project reads each old `.pptx`, extracts number / title / verses / refrain, and rebuilds it as a `.key` file from one single template, so the whole hymnal presents consistently.
 
-**707 of 705 target songs converted and verified.** *(a couple of numbers exist under two title-spelling variants — harmless duplicates, not a miscount)* A handful of outliers with genuinely non-standard source structure (verse and refrain merged into one text block instead of separate slides) are queued for manual handling.
+**All 705 hymns converted and verified.**
+
+- **[Browse the full song index →](SONGS.md)** — every hymn by number and title, searchable
+- **[Download the presentations →](../../releases)** — Keynote files, split into parts of ~100 hymns
 
 ## How it works
 

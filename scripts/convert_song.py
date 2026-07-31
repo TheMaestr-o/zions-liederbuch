@@ -15,12 +15,15 @@ so a whole batch can be driven without inspecting slide dumps by hand.
 """
 
 import glob
+import os
 import re
+import subprocess
 import sys
+import time
 
 from pptx import Presentation
 
-from make_song import build_song, osa, KEYNOTE_ID
+from make_song import build_song, osa, as_str, KEYNOTE_ID
 
 SONGS_DIR = "/Users/ohnedan/Developer/zions-liederbuch/songs"
 PPTX_SEARCH_DIRS = [
@@ -76,19 +79,42 @@ def parse_pptx(path: str):
     while slides and not slides[-1]:
         slides.pop()
 
-    if not slides or len(slides[0]) < 2:
+    if not slides:
         raise ValueError(f"can't find cover slide (number+title) in {path}")
 
     cover = slides.pop(0)
+    # Some covers (e.g. song 36) put "Lied Nr. N" and the title as two LINES of a
+    # SINGLE text box instead of two separate shapes. Split it so the number/title
+    # detection below sees them as two blocks, exactly as in the usual two-shape case.
+    if len(cover) == 1:
+        parts = [p for p in clean_block(cover[0]).split("\n") if p]
+        if len(parts) >= 2:
+            cover = [parts[0], "\n".join(parts[1:])]
+    if len(cover) < 2:
+        raise ValueError(f"can't find cover slide (number+title) in {path}")
+
     number = None
     number_idx = None
     for idx, block in enumerate(cover):
         joined = " ".join(block.replace("\x0b", " ").split())
-        m = re.search(r"Lied\s*Nr\.?\s*(\d+)", joined, re.IGNORECASE) or re.search(r"^(\d+)$", joined)
+        # "Lie+d" tolerates source typos like "Lieed Nr.637" (song 637)
+        m = re.search(r"Lie+d\s*Nr\.?\s*(\d+)", joined, re.IGNORECASE) or re.search(r"^(\d+)$", joined)
         if m:
             number = m.group(1)
             number_idx = idx
             break
+    if number is None:
+        # Last resort: the filename is authoritative anyway (convert() overrides with
+        # it), so only the title block still has to be identified. Any block carrying
+        # some "Nr. <digits>" label is the number block, the other one is the title.
+        m = re.search(r"(\d+)", os.path.basename(path))
+        if m:
+            number = m.group(1)
+            for idx, block in enumerate(cover):
+                joined = " ".join(block.replace("\x0b", " ").split())
+                if re.search(r"Nr\.?\s*\d+", joined, re.IGNORECASE):
+                    number_idx = idx
+                    break
     if number is None:
         raise ValueError(f"no song number found on cover slide: {cover}")
     title_block = next((b for i, b in enumerate(cover) if i != number_idx), cover[0])
@@ -116,17 +142,50 @@ def parse_pptx(path: str):
     return dict(number=number, title=title, verses=verses, refrain=refrain)
 
 
+def restart_keynote():
+    try:
+        osa(f'tell application id "{KEYNOTE_ID}" to quit saving no')
+    except Exception:
+        pass
+    subprocess.run(["pkill", "-9", "-f", "Keynote Creator Studio"], check=False)
+    time.sleep(3)
+
+
 def verify(output_path: str, number: str, title: str, verses: list, refrain: str) -> list:
+    """Read the finished deck back and compare it with what was asked for.
+
+    This Keynote build sometimes stops answering AppleEvents right after a save -
+    even `get name of documents` then returns -1712, while the app sits idle at 3%
+    CPU (seen on song 226). The saved file itself is fine, so a wedged app must not
+    condemn the song: force-restart Keynote and read it back once more. Only the
+    failure path is affected, so songs that verify first time behave exactly as before.
+    """
+    try:
+        return _verify_once(output_path, number, title, verses, refrain)
+    except RuntimeError as e:
+        detail = str(e).strip().splitlines()[-1][:110]
+        print(f"   WARN verify failed ({detail}); restarting Keynote and retrying once")
+        restart_keynote()
+        return _verify_once(output_path, number, title, verses, refrain)
+
+
+def _verify_once(output_path: str, number: str, title: str, verses: list, refrain: str) -> list:
     problems = []
     osa(f'''
-    tell application id "{KEYNOTE_ID}"
-        open POSIX file "{output_path}"
-        delay 2
-    end tell
+    with timeout of 180 seconds
+        tell application id "{KEYNOTE_ID}"
+            open POSIX file {as_str(output_path)}
+            delay 2
+        end tell
+    end timeout
     tell application "System Events" to set visible of application process "Keynote" to false
     ''')
     # \x01 stands in for embedded newlines in multi-line verse/refrain text so the
-    # dump stays exactly one real line per slide and can be split reliably.
+    # dump stays exactly one real line per slide, and \x02 separates the fields.
+    # The field separator must NOT be a character that can occur in hymn text: "|"
+    # used to be used here, but German repeat marks "|: ... :|" appear in many songs
+    # (137, 163, 269, 359, 385, 509, 512, 636, 697) and split their verses into
+    # bogus extra fields, which made verification fail on perfectly good decks.
     dump = osa(f'''
     on flatten(t)
         set AppleScript's text item delimiters to linefeed
@@ -137,22 +196,29 @@ def verify(output_path: str, number: str, title: str, verses: list, refrain: str
         return t2
     end flatten
 
-    tell application id "{KEYNOTE_ID}"
-        set theDoc to front document
-        set n to count of slides of theDoc
-        set out to (n as string) & linefeed
-        repeat with i from 1 to n
-            set t to text items of (slide i of theDoc)
-            set out to out & i & "|" & (count of t)
-            repeat with it_ in t
-                set out to out & "|" & my flatten(object text of it_)
+    with timeout of 180 seconds
+        tell application id "{KEYNOTE_ID}"
+            set sep to (ASCII character 2)
+            set theDoc to front document
+            set n to count of slides of theDoc
+            set out to (n as string) & linefeed
+            repeat with i from 1 to n
+                set t to text items of (slide i of theDoc)
+                set out to out & i & sep & (count of t)
+                repeat with it_ in t
+                    set out to out & sep & my flatten(object text of it_)
+                end repeat
+                set out to out & linefeed
             end repeat
-            set out to out & linefeed
-        end repeat
-        return out
-    end tell
+            return out
+        end tell
+    end timeout
     ''')
-    osa(f'tell application id "{KEYNOTE_ID}" to close front document saving no')
+    osa(f'''
+    with timeout of 180 seconds
+        tell application id "{KEYNOTE_ID}" to close front document saving no
+    end timeout
+    ''')
 
     lines = dump.split("\n")
     n = int(lines[0])
@@ -163,7 +229,7 @@ def verify(output_path: str, number: str, title: str, verses: list, refrain: str
     slide_lines = lines[1:1 + n]
     slides = []
     for line in slide_lines:
-        parts = line.split("|")
+        parts = line.split("\x02")
         slides.append([p.replace("\x01", "\n") for p in parts[2:]])
 
     cover = slides[1] if len(slides) > 1 else []

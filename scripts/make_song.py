@@ -45,10 +45,12 @@ def as_str(s: str) -> str:
 def open_and_save_as(output_path: str):
     shutil.copyfile(TEMPLATE_PATH, output_path)
     osa(f'''
-    tell application id "{KEYNOTE_ID}"
-        open POSIX file {as_str(output_path)}
-        delay 2
-    end tell
+    with timeout of 180 seconds
+        tell application id "{KEYNOTE_ID}"
+            open POSIX file {as_str(output_path)}
+            delay 2
+        end tell
+    end timeout
     tell application "System Events" to set visible of application process "Keynote" to false
     ''')
 
@@ -63,27 +65,65 @@ def delete_slide(index: int):
 
 def duplicate_after(src_index: int, after_index: int):
     osa(f'''
-    tell application id "{KEYNOTE_ID}"
-        duplicate (slide {src_index} of front document) to after (slide {after_index} of front document)
-    end tell
+    with timeout of 180 seconds
+        tell application id "{KEYNOTE_ID}"
+            duplicate (slide {src_index} of front document) to after (slide {after_index} of front document)
+            delay 1
+        end tell
+    end timeout
     ''')
 
 
+def text_item_count(slide_index: int) -> int:
+    return int(osa(f'''
+    tell application id "{KEYNOTE_ID}"
+        count of text items of (slide {slide_index} of front document)
+    end tell
+    '''))
+
+
 def set_texts(slide_index: int, items: dict):
+    """Set the given 1-based text items of a slide.
+
+    A freshly duplicated slide occasionally comes back from Keynote with fewer
+    text items than the template slide has (the duplicate reports the master's
+    "default title item"/"default body item" placeholders instead of the real,
+    populated shapes). Indexing past the end used to abort the whole song with
+    `item 5 of {...} can't be read (-1728)`. Retry once - a short settle is
+    usually enough for Keynote to materialise the shapes - then set only the
+    items that actually exist so a short slide degrades instead of crashing.
+    """
+    needed = max(items)
+    have = text_item_count(slide_index)
+    if have < needed:
+        osa('delay 1')
+        have = text_item_count(slide_index)
+    if have < needed:
+        print(f"   WARN slide {slide_index}: only {have} text items, expected >= {needed}; "
+              f"skipping items {sorted(i for i in items if i > have)}")
+
     lines = [f'set theSlide to slide {slide_index} of front document',
              'set t to text items of theSlide']
     for item_index, text in items.items():
+        if item_index > have:
+            continue
         lines.append(f'set object text of (item {item_index} of t) to {as_str(text)}')
-    body = "\n        ".join(lines)
+    body = "\n            ".join(lines)
     osa(f'''
-    tell application id "{KEYNOTE_ID}"
-        {body}
-    end tell
+    with timeout of 180 seconds
+        tell application id "{KEYNOTE_ID}"
+            {body}
+        end tell
+    end timeout
     ''')
 
 
 def save():
-    osa(f'tell application id "{KEYNOTE_ID}" to save front document')
+    osa(f'''
+    with timeout of 180 seconds
+        tell application id "{KEYNOTE_ID}" to save front document
+    end timeout
+    ''')
 
 
 def close_no_save():
