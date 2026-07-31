@@ -45,7 +45,6 @@
 
 <br><br>
 
-<img src="screenshots/keynote-start.png" width="700" alt="Keynote presenter view">
 <br><sub>Presenter view — current slide, what is coming next, and the clock</sub>
 
 <br><br>
