@@ -517,7 +517,7 @@ Presentations are published as Keynote files under [Releases](../../releases).
 | 509 | Ich weiß, dass mein Erlöser lebt |
 | 510 | Mein Jesus ist mein Fels und Gott |
 | 511 | Heut bringt der Gnadensonne Strahl |
-| 512 | O sel’ger Glaube, der nicht wankt |
+| 512 | O sel'ger Glaube, der nicht wankt |
 | 513 | Ihr Kinderlein kommet |
 | 514 | O Bruder, üb‘ Treue |
 | 515 | Lasst mich gehn, lasst mich gehn |
