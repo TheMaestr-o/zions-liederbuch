@@ -20,18 +20,23 @@
 
 <br><br>
 
-<img src="screenshots/keynote-real-1.png" width="700" alt="Cover slide: hymn number and title">
-<br><sub>Cover slide — number and title</sub>
+<img src="screenshots/keynote-real-4.png" width="700" alt="Cover slide: hymn number and title">
+<br><sub>Cover — the number set large, the title across it</sub>
 
 <br><br>
 
-<img src="screenshots/keynote-real-3.png" width="700" alt="Verse slide">
-<br><sub>Verse slide — the verse number sits behind the text as a watermark</sub>
+<img src="screenshots/keynote-real-3.png" width="700" alt="First verse slide">
+<br><sub>Verse 1 — the verse number sits behind the text as a watermark</sub>
 
 <br><br>
 
 <img src="screenshots/keynote-real-2.png" width="700" alt="Refrain slide">
-<br><sub>Refrain slide — the oversized <i>Ref:</i> mark sets it apart from a verse at a glance</sub>
+<br><sub>Refrain — the oversized <i>Ref:</i> mark sets it apart from a verse at a glance</sub>
+
+<br><br>
+
+<img src="screenshots/keynote-real-1.png" width="700" alt="Second verse slide">
+<br><sub>Verse 2 — same layout, so the whole book reads identically</sub>
 
 <br><br>
 
