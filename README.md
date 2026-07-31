@@ -81,8 +81,13 @@ A German hymnal (*Zions Liederbuch*, 705 songs) that existed as decades of hand-
 
 **All 705 hymns converted and verified.**
 
-- **[Browse the full song index →](SONGS.md)** — every hymn by number and title, searchable
-- **[Download the presentations →](../../releases)** — Keynote files, split into parts of ~100 hymns
+<div align="center">
+
+[![Download the presentations](https://img.shields.io/badge/⤓_Download_the_presentations-c98f16?style=for-the-badge&logoColor=white)](../../releases)
+[![Search all 705 hymns](https://img.shields.io/badge/⌕_Search_all_705_hymns-1a5c5f?style=for-the-badge&logoColor=white)](https://themaestr-o.github.io/zions-liederbuch/)
+[![Song index](https://img.shields.io/badge/☰_Song_index-2d2d2d?style=for-the-badge&logoColor=white)](SONGS.md)
+
+</div>
 
 ## How it works
 
