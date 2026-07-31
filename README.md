@@ -25,6 +25,11 @@
 
 <br><br>
 
+<img src="screenshots/keynote-real-3.png" width="700" alt="Verse slide">
+<br><sub>Verse slide — the verse number sits behind the text as a watermark</sub>
+
+<br><br>
+
 <img src="screenshots/keynote-real-2.png" width="700" alt="Refrain slide">
 <br><sub>Refrain slide — the oversized <i>Ref:</i> mark sets it apart from a verse at a glance</sub>
 
