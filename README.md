@@ -45,9 +45,6 @@
 
 <br><br>
 
-<br><sub>Presenter view — current slide, what is coming next, and the clock</sub>
-
-<br><br>
 
 ### On the actual screen
 
