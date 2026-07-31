@@ -50,6 +50,28 @@
 
 <br><br>
 
+### On the actual screen
+
+<img src="screenshots/fullscreen-wide-cover.png" width="720" alt="Cover on an ultrawide display">
+<br><sub>Ultrawide display (21:9) — cover</sub>
+
+<br><br>
+
+<img src="screenshots/fullscreen-wide-verse.png" width="720" alt="Verse on an ultrawide display">
+<br><sub>Ultrawide display (21:9) — verse</sub>
+
+<br><br>
+
+<img src="screenshots/fullscreen-standard-cover.png" width="620" alt="Cover on a standard display">
+<br><sub>Standard display — cover</sub>
+
+<br><br>
+
+<img src="screenshots/fullscreen-standard-verse.png" width="620" alt="Verse on a standard display">
+<br><sub>Standard display — verse</sub>
+
+<br><br>
+
 <table>
 <tr>
 <td align="center"><img src="screenshots/before-example.png" width="330" alt="Before: plain PowerPoint slide"></td>
