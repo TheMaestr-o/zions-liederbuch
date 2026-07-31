@@ -42,6 +42,16 @@
   .n { color:var(--accent); font-weight:700; min-width:52px; text-align:right;
        font-variant-numeric:tabular-nums; }
   footer { margin-top:34px; color:var(--dim); font-size:13px; }
+  .contact { display:flex; gap:10px; flex-wrap:wrap; }
+  .cbtn { display:inline-flex; align-items:center; gap:8px; padding:10px 16px;
+          border-radius:11px; text-decoration:none; font-size:14px; font-weight:600;
+          color:#fff; border:1px solid transparent;
+          transition:transform .14s cubic-bezier(.2,.9,.3,1), box-shadow .14s, filter .14s; }
+  .cbtn svg { width:17px; height:17px; }
+  .cbtn.mail { background:#ea4335; box-shadow:0 3px 12px rgba(234,67,53,.32); }
+  .cbtn.tg   { background:#28a8e9; box-shadow:0 3px 12px rgba(40,168,233,.32); }
+  .cbtn:hover { transform:translateY(-2px); filter:brightness(1.06); }
+  .cbtn:active { transform:translateY(0) scale(.985); }
   a { color:inherit; }
 </style>
 </head>
@@ -72,7 +82,22 @@
   <ul id="list"></ul>
 
   <footer>
-    Erstellt aus einer einzigen Keynote-Vorlage, damit das ganze Buch einheitlich praesentiert.
+    <p style="margin:0 0 16px">Erstellt aus einer einzigen Keynote-Vorlage, damit das ganze Buch einheitlich praesentiert.</p>
+    <div class="contact">
+      <a class="cbtn mail" href="mailto:gssdarm@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+             stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6.5l9 6 9-6"/>
+        </svg>
+        gssdarm@gmail.com
+      </a>
+      <a class="cbtn tg" href="https://t.me/ohnedan" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21.9 4.3L18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.3.3-.5.5-1 .5l.3-4.7L18.3 6c.4-.3-.1-.5-.6-.2L6.9 12.6l-4.5-1.4c-1-.3-1-1 .2-1.4l17.6-6.8c.8-.3 1.5.2 1.2 1.3z"/>
+        </svg>
+        @ohnedan
+      </a>
+    </div>
   </footer>
 </div>
 
